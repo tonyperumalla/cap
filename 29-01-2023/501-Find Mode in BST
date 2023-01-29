@@ -1,0 +1,57 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+ import java.util.*;
+class Solution {
+    
+    List<Integer> lis = new ArrayList<>();
+    List<Integer> lis1 = new ArrayList<>();
+    public int[] findMode(TreeNode root) {
+        inOrder(root);      
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i = 0 ; i<lis.size() ; i++){
+            map.put(lis.get(i),Collections.frequency(lis,lis.get(i)));
+        }
+        int m = 0;
+        
+        for(Map.Entry<Integer,Integer> entry:map.entrySet()){
+            if(entry.getValue()>m){
+                m = entry.getValue();
+            }
+        }
+        
+        for(Map.Entry<Integer,Integer> entry:map.entrySet()){
+            if(entry.getValue()==m){
+                lis1.add(entry.getKey());
+            }
+        }
+        int[] arr = new int[lis1.size()];
+        for(int i=0; i<lis1.size();i++){
+            arr[i] = lis1.get(i);
+        }
+        
+        return arr;
+    }
+    public void inOrder(TreeNode root){
+        if(root==null){
+            return ;
+        }
+        inOrder(root.left);
+        lis.add(root.val);
+        inOrder(root.right);
+
+    }
+    
+}
